@@ -1,0 +1,31 @@
+﻿
+<div class="tech-btm" id="contactFormContainer">
+	<p>Teknoloji,yazılım ve diğer bloglar</p>
+    <form id="contactForm">
+		<input type="email" placeholder="Email" id="email" required="" name="Mail">
+		<input type="submit" id="btnMail" value="Abone Ol">
+	</form>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#contactForm').submit(function (event) {
+            event.preventDefault(); // Formun normal gönderimini engelle
+
+            $.ajax({
+                url: '/NewsLetter/SubscribeMail', // Formun gönderileceği URL
+                type: 'POST',
+                data: $(this).serialize(), // Form verilerini seri hale getirir
+                success: function (response) {
+                    // Başarılı yanıt durumunda partial view'i sayfaya ekleyin
+                    $('#contactFormContainer').html(response); // partial view'in döndüğü HTML
+                },
+                error: function () {
+                    // Hata durumunda bir mesaj göster
+                    alert("There was an error processing the form.");
+                }
+            });
+        });
+    });
+</script>
